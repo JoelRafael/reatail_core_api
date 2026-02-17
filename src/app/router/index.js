@@ -11,5 +11,6 @@ router.put("/users/:id", require("../controllers/config/users_controller").updat
 
 
 router.get("/categories", require("../controllers/config/category_controller").getCategories);
+router.post("/categories", require("../controllers/config/category_controller").categoryCreate);
 //router.get("/products", require("../controllers/config/products_controller").getProducts);
 module.exports = router;

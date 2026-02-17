@@ -10,8 +10,8 @@ const findAll = async () => {
                                                           slug,
                                                           active 
                                                    FROM category`, {   }, {
-            type: QueryTypes.SELECT,
-            raw: true,
+              type: QueryTypes.SELECT,
+             raw: true
         });
         return categories;
     }   catch (error) {                 
@@ -30,13 +30,27 @@ const findCategoryById = async (id) => {
         throw error;
     }}
 
-const categoryCreate = async (body) => { }  
+const createCategory = async (body) => { 
+    try {
+        const category = await sequelize.query(
+            `INSERT INTO category (name, description, slug, active) VALUES (:name, :description, :slug, :active)`,
+            {
+                replacements: body,
+                type: QueryTypes.INSERT,
+            }
+        );
+        return category[0];
+    } catch (error) {
+        console.error("Error creating category:", error);
+        throw error;
+    }           
+}  
 
 const categoryUpdate = async (id, body) => { }
 
 module.exports = {
     findAll,
     findCategoryById,
-    categoryCreate,
+    createCategory,
     categoryUpdate
 }   
