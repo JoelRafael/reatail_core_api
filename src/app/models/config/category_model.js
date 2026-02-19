@@ -21,10 +21,20 @@ const findAll = async () => {
 
 const findCategoryById = async (id) => {
     try {
-        const category = await sequelize.query( `SELECT category_id, name FROM category WHERE category_id = :id`, { }, {
-            replacements: { id },
-            type: QueryTypes.SELECT,    }     );
+        const category = await sequelize.query( `SELECT 
+                                                       category_id, 
+                                                       name,
+                                                       description,
+                                                       slug,
+                                                       active 
+                                                       FROM category 
+                                                       WHERE category_id = ${id}`, {
+                type: QueryTypes.SELECT,
+                raw: true
+            });
+
         return category;
+        
     }   catch (error) {                 
         console.error("Error fetching category by ID:", error);
         throw error;
@@ -33,7 +43,18 @@ const findCategoryById = async (id) => {
 const createCategory = async (body) => { 
     try {
         const category = await sequelize.query(
-            `INSERT INTO category (name, description, slug, active) VALUES (:name, :description, :slug, :active)`,
+            `INSERT INTO category (
+                                     name, 
+                                     description, 
+                                     slug,
+                                     user_create, 
+                                     active)
+
+             VALUES (                :name, 
+                                     :description,
+                                     :user_create, 
+                                     :slug, 
+                                     :active)`,
             {
                 replacements: body,
                 type: QueryTypes.INSERT,
@@ -46,11 +67,27 @@ const createCategory = async (body) => {
     }           
 }  
 
-const categoryUpdate = async (id, body) => { }
+const updateCategory = async (id, body) => {
+    try {
+        const category = await sequelize.query(`
+            UPDATE category SET 
+                            name = :name, 
+                            description = :description, 
+                            slug = :slug, 
+                            active = :active 
+                            WHERE category_id = :id RETURNING *`, {
+            replacements: { id, ...body }
+            
+        });
+        return category[0];
+    } catch (error) {
+        console.error("Error updating category:", error);
+        throw error;
+    }}
 
 module.exports = {
     findAll,
     findCategoryById,
     createCategory,
-    categoryUpdate
+    updateCategory
 }   
