@@ -9,9 +9,16 @@ router.post("/users", require("../controllers/config/users_controller").createUs
 router.put("/users/:id", require("../controllers/config/users_controller").updateUser);
 //end Users Routes
 
-
+// Categories Routes
 router.get("/categories", require("../controllers/config/category_controller").getCategories);
 router.post("/categories", require("../controllers/config/category_controller").categoryCreate);
 router.put("/categories/:id", require("../controllers/config/category_controller").categoryUpdate);
-//router.get("/products", require("../controllers/config/products_controller").getProducts);
+//end Categories Routes
+
+// Products Routes
+router.get("/products", require("../controllers/config/products_controller").getProducts);
+router.get("/products/search", require("../controllers/config/products_controller").getProductsBySearch);
+router.post("/products", require("../controllers/config/products_controller").createProduct);
+//end Products Routes
+
 module.exports = router;
