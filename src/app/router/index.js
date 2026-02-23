@@ -18,7 +18,11 @@ router.put("/categories/:id", require("../controllers/config/category_controller
 // Products Routes
 router.get("/products", require("../controllers/config/products_controller").getProducts);
 router.get("/products/search", require("../controllers/config/products_controller").getProductsBySearch);
+router.get("/products/:key_id", require("../controllers/config/products_controller").getProductsById);
 router.post("/products", require("../controllers/config/products_controller").createProduct);
+router.put("/products/:key_id", require("../controllers/config/products_controller").updateProduct)
 //end Products Routes
+
+
 
 module.exports = router;
