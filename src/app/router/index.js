@@ -23,6 +23,10 @@ router.post("/products", require("../controllers/config/products_controller").cr
 router.put("/products/:key_id", require("../controllers/config/products_controller").updateProduct)
 //end Products Routes
 
-
+// Orders Routes
+router.get("/orders", require("../controllers/orders_controller").getOrders);
+router.get("/orders/search", require("../controllers/orders_controller").getOrdersBySearch);
+//router.get("/orders/search", require("../controllers/orders_controller").getOrdersBySearch);
+//end Orders Routes
 
 module.exports = router;
