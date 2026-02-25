@@ -26,7 +26,7 @@ router.put("/products/:key_id", require("../controllers/config/products_controll
 // Orders Routes
 router.get("/orders", require("../controllers/orders_controller").getOrders);
 router.get("/orders/search", require("../controllers/orders_controller").getOrdersBySearch);
-//router.get("/orders/search", require("../controllers/orders_controller").getOrdersBySearch);
+router.get("/orders/details", require("../controllers/orders_controller").getOrdersDetails);
 //end Orders Routes
 
 module.exports = router;

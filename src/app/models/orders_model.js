@@ -46,7 +46,9 @@ const findBySeacrh = async (body) => {
                                                         s.name
                                                      FROM orders o
                                                      JOIN status s ON o.status_id = s.status_id
-                                                     WHERE o.key_id = :key_id AND o.code = :code AND o.ncf = :ncf`, 
+                                                     WHERE o.key_id = :key_id 
+                                                     OR    o.code = :code 
+                                                     OR    o.ncf = :ncf`, 
                                                      { type: QueryTypes.SELECT,
                                                         replacements: { key_id: body.key_id, code: body.code, ncf: body.ncf},
                                                         raw: true
@@ -58,7 +60,36 @@ const findBySeacrh = async (body) => {
     }
 }
             
+const findOrderDetailsByOrderId = async (order_id) => {
+    try {
+        const orderDetails = await sequelize.query(
+                                                    `SELECT 
+                                                        product_id,
+                                                        name,
+                                                        quantity,
+                                                        price_sale,
+                                                        price_orin,
+                                                        quantity,
+                                                        unit,
+                                                        sub_total,
+                                                        tax,
+                                                        total
+                                                     FROM order_items 
+                                                     WHERE order_id = :order_id`, 
+                                                     { type: QueryTypes.SELECT,
+                                                        replacements: { order_id },
+                                                        raw: true
+                                                      }
+        ); 
+        return orderDetails;
+    } catch (error) {
+        console.error("Error fetching order details by order id:", error);
+        throw error;
+    }
+}
+            
 module.exports = {
     findAll,
-    findBySeacrh
+    findBySeacrh,
+    findOrderDetailsByOrderId
 }

@@ -1,6 +1,6 @@
 const {response} = require("express");
 const { defaultResponse, defaulMessage } = require("../helpers/script");
-const { findAll,findBySeacrh} = require("../models/orders_model");
+const { findAll,findBySeacrh, findOrderDetailsByOrderId} = require("../models/orders_model");
 
 
 const getOrders = async (req, res = response) => {
@@ -13,13 +13,35 @@ const getOrdersBySearch = async (req, res = response) => {
    
     const {key_id, code, ncf} = req.body;
 
-    if (!key_id || !code || !ncf) return defaulMessage(res, "Search body is required with key_id, code and ncf", 400);
+    if (!key_id && !code && !ncf) return defaulMessage(res, "Search body is required with key_id, code and ncf", 400);
 
     const orders = await findBySeacrh({key_id, code, ncf});
 
     if(orders.length === 0 ) return defaulMessage(res, "This orders no found", 404);
 
     return defaultResponse(res, orders, "Orders found by search");
+}
+
+const getOrdersDetails = async (req, res = response) => {
+
+    const {key_id, code, ncf} = req.body;
+
+    if (!key_id && !code && !ncf) return defaulMessage(res, "Search body is required with key_id, code and ncf", 400);
+ 
+    const orders = await findBySeacrh({key_id, code, ncf});
+
+    if(orders.length === 0 ) return defaulMessage(res, "This orders no found", 404);
+
+    const orderDetails = await findOrderDetailsByOrderId(orders[0].order_id);
+
+    if(orderDetails.length === 0 ) return defaulMessage(res, "This order details no found", 404);
+
+    const objetResponse = {
+        order: orders[0],
+        details:orderDetails
+    }
+    return defaultResponse(res, objetResponse, "Order details found");
+
 }
 
 
@@ -30,5 +52,5 @@ const getOrdersBySearch = async (req, res = response) => {
 module.exports = {
     getOrders,
     getOrdersBySearch,
-    //getOrdersById,
+    getOrdersDetails
 }
