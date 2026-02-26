@@ -48,18 +48,22 @@ const createOrder = async (req, res = response) => {
 
  if (!req.body) return defaulMessage(res, "Order body is required", 400);
 
+ const status_id = await findStatusId({ action: "order.bill", group: "Order" });
+
+ if (!status_id) return defaulMessage(res, "Status bill no found", 404);
+
     const newOrder = {
+        ncf: null,
+        ncf_expire: null,
         method_payment: req.body.method_payment,
         user: req.body.user,
         sub_total: req.body.sub_total,
         tax: req.body.tax,
         total: req.body.total,
+        status_id: status_id,
         items: req.body.items,
     }
 
-if (!newOrder.method_payment || !newOrder.user || !newOrder.items) {
-    return defaulMessage(res, "Order body is required with method_payment, user and items", 400)
-};
 
     // const orderCreated = await orderCreate(newOrder);    
 

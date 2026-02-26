@@ -87,6 +87,28 @@ const findOrderDetailsByOrderId = async (order_id) => {
         throw error;
     }
 }
+
+const orderCreate = async (newOrder) => {
+    try {
+        const result = await sequelize.query(`CALL order_create(:ncf,
+                                                                :ncf_expire,
+                                                                :method_payment, 
+                                                                :user, 
+                                                                :sub_total, 
+                                                                :tax, 
+                                                                :total, 
+                                                                :status_id, 
+                                                                :items)`,
+        {
+            replacements: { ...newOrder },
+            type: QueryTypes.RAW
+        });
+        return result;
+    } catch (error) {
+        console.error("Error creating order:", error);
+        throw error;
+    }   
+}
             
 module.exports = {
     findAll,

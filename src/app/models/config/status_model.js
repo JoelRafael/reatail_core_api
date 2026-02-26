@@ -18,9 +18,9 @@ const findAll = async () => {
 const findStatusId = async (body) => {
         try {
             const statusId = await sequelize.query(
-                `SELECT status_id, name FROM status WHERE name = :name AND "group" = :group`, {
+                `SELECT status_id, name FROM status WHERE action = :action AND "group" = :group`, {
                     replacements: { group: body.group, 
-                                    name: body.name },
+                                    action: body.action },
                     type: QueryTypes.SELECT,
                     raw: true,
                 }

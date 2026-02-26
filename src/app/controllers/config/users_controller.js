@@ -22,7 +22,7 @@ const body = {
     location,
     username,
     password : Buffer.from(password).toString("base64"),
-    status_id : await findStatusId({name: "Activo", group: "USERS"}),  
+    status_id : await findStatusId({action: "user.active", group: "USERS"}),  
     date_born,
 }
 
