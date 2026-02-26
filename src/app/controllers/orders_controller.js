@@ -44,6 +44,17 @@ const getOrdersDetails = async (req, res = response) => {
 
 }
 
+const createOrder = async (req, res = response) => {
+
+    if (!req.body) return defaulMessage(res, "Order body is required", 400);
+    
+    const newOrder = {
+        method_payment: req.body.method_payment,
+        items: req.body.items,
+    }
+
+
+}
 
 
 

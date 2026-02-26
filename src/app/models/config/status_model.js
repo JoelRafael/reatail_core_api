@@ -15,10 +15,10 @@ const findAll = async () => {
         throw error;
     }}
 
-    const findStatusId = async (body) => {
+const findStatusId = async (body) => {
         try {
             const statusId = await sequelize.query(
-                `SELECT status_id FROM status WHERE name = :name AND "group" = :group`, {
+                `SELECT status_id, name FROM status WHERE name = :name AND "group" = :group`, {
                     replacements: { group: body.group, 
                                     name: body.name },
                     type: QueryTypes.SELECT,
