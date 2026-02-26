@@ -46,13 +46,22 @@ const getOrdersDetails = async (req, res = response) => {
 
 const createOrder = async (req, res = response) => {
 
-    if (!req.body) return defaulMessage(res, "Order body is required", 400);
-    
+ if (!req.body) return defaulMessage(res, "Order body is required", 400);
+
     const newOrder = {
         method_payment: req.body.method_payment,
+        user: req.body.user,
+        sub_total: req.body.sub_total,
+        tax: req.body.tax,
+        total: req.body.total,
         items: req.body.items,
     }
 
+if (!newOrder.method_payment || !newOrder.user || !newOrder.items) {
+    return defaulMessage(res, "Order body is required with method_payment, user and items", 400)
+};
+
+    // const orderCreated = await orderCreate(newOrder);    
 
 }
 
